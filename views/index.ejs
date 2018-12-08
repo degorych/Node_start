@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
+</head>
+<body>
+<div class="container col-md-4">
+    <hr>
+    <h2>Post sum</h2>
+    <form action="/" method="post">
+        <div class="form-group">
+            <input type="number" class="form-control" name="first" placeholder="First number">
+        </div>
+        <div class="form-group">
+            <input type="number" class="form-control" name="second" placeholder="Second number">
+        </div>
+        <button type="submit" class="btn btn-primary">Get sum</button>
+    </form>
+
+    <% const sumView = typeof sumRez === 'undefined' ? '0' : sumRez %>
+    <div><%= sumView %></div>
+
+    <hr>
+    <h2>Put update string</h2>
+    <form action="/" method="post">
+        <div class="form-group">
+            <input type="text" class="form-control" name="string" placeholder="Enter some string">
+            <input type="hidden" name="_method" value="PUT">
+        </div>
+        <button type="submit" class="btn btn-success">Update string</button>
+    </form>
+
+    <% const stringView = typeof string === 'undefined' ? 'Some string' : string %>
+    <div><%= stringView %></div>
+
+    <hr>
+    <h2>Delete counter</h2>
+    <form id="deleteCounter">
+        <label id="counter">0</label>
+        <button type="submit" class="btn btn-danger">Count</button>
+    </form>
+</div>
+<script src="/javascripts/jQuery.js"></script>
+<script>
+    $('#deleteCounter').on('submit', function (e) {
+        e.preventDefault();
+        const counter = $('#counter');
+        $.ajax('/', {
+            type: 'delete',
+            dataType: 'json',
+            data: {number: counter.text()}
+        }).done(function (response) {
+            counter.text(response.result);
+        }).fail(function (error) {
+            console.log(error);
+        });
+    })
+</script>
+</body>
+</html>
